@@ -115,12 +115,6 @@ div.stButton > button:hover {
     color: white;
 }
 
-[data-testid="stMetric"] {
-    background: white;
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid #e5e7eb;
-}
 </style>
 """, unsafe_allow_html=True)
 
