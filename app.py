@@ -4,14 +4,36 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 
-# Page Configuration
+# ----------------------------------
+# PAGE CONFIGURATION
+# ----------------------------------
+
 st.set_page_config(
     page_title="Garbage Classification AI",
     page_icon="♻️",
-    layout="centered"
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Class Names
+# ----------------------------------
+# PROJECT LINKS
+# Apne actual URLs yahan paste karna
+# ----------------------------------
+
+LINKS = {
+    "Dataset & Code Details": "YOUR_KAGGLE_NOTEBOOK_LINK",
+    "Project Report": "YOUR_PROJECT_REPORT_LINK",
+    "PPT / Presentation": "YOUR_PPT_LINK",
+    "YouTube Video": "YOUR_YOUTUBE_VIDEO_LINK",
+    "GitHub Repository": "YOUR_GITHUB_REPOSITORY_LINK",
+    "LinkedIn": "YOUR_LINKEDIN_PROFILE_LINK",
+    "Kaggle": "YOUR_KAGGLE_PROFILE_OR_NOTEBOOK_LINK"
+}
+
+# ----------------------------------
+# CLASS NAMES
+# ----------------------------------
+
 CLASS_NAMES = [
     "battery",
     "biological",
@@ -27,88 +49,317 @@ CLASS_NAMES = [
     "white-glass"
 ]
 
-# Load Trained Model
+# ----------------------------------
+# CUSTOM CSS - LIGHT THEME
+# ----------------------------------
+
+st.markdown("""
+<style>
+.stApp {
+    background-color: #f7f9fc;
+    color: #1f2937;
+}
+
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+    max-width: 1150px;
+}
+
+.hero {
+    background: linear-gradient(120deg, #e5f7eb, #f0fdf4);
+    padding: 35px;
+    border-radius: 18px;
+    border: 1px solid #d1ead9;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    color: #166534;
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.hero p {
+    color: #4b6352;
+    font-size: 16px;
+}
+
+.section-title {
+    color: #166534;
+    font-size: 23px;
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+.info-card {
+    background: white;
+    padding: 20px;
+    border-radius: 13px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 12px;
+}
+
+div.stButton > button {
+    background-color: #15803d;
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: 10px 25px;
+    font-weight: 600;
+    width: 100%;
+}
+
+div.stButton > button:hover {
+    background-color: #166534;
+    color: white;
+}
+
+[data-testid="stMetric"] {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# ----------------------------------
+# LOAD MODEL
+# ----------------------------------
+
 @st.cache_resource
 def load_model():
     return tf.keras.models.load_model(
         "model/best_garbage_model.keras"
     )
 
-model = load_model()
+try:
+    model = load_model()
+except Exception as e:
+    st.error("Model load nahi ho saka. Model file ka path check karein.")
+    st.exception(e)
+    st.stop()
 
-# App Heading
-st.title("♻️ Garbage Classification AI")
-st.write(
-    "Upload a garbage image and let AI identify its category."
+# ----------------------------------
+# SIDEBAR
+# ----------------------------------
+
+with st.sidebar:
+    st.title("♻️ Garbage AI")
+    st.caption("Smart Waste Classification System")
+
+    st.divider()
+
+    st.subheader("Project Resources")
+
+    for title, url in LINKS.items():
+        if url.startswith("https://") or url.startswith("http://"):
+            st.markdown(f"🔗 [{title}]({url})")
+        else:
+            st.caption(f"Add URL: {title}")
+
+    st.divider()
+
+    st.markdown("**Model Information**")
+    st.write("Architecture: MobileNetV2")
+    st.write("Framework: TensorFlow / Keras")
+    st.write("Input Size: 224 × 224")
+    st.write("Categories: 12")
+
+    st.divider()
+    st.caption("AI-Based Smart Waste Classification")
+
+# ----------------------------------
+# HEADER
+# ----------------------------------
+
+st.markdown("""
+<div class="hero">
+    <h1>♻️ Garbage Classification AI</h1>
+    <p>
+        An intelligent waste classification system powered by
+        Deep Learning and MobileNetV2.
+        Upload an image to identify its waste category.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# ----------------------------------
+# PROJECT OVERVIEW
+# ----------------------------------
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric("Waste Categories", "12")
+
+with col2:
+    st.metric("Test Accuracy", "94%")
+
+with col3:
+    st.metric("Deep Learning Model", "MobileNetV2")
+
+st.markdown("---")
+
+# ----------------------------------
+# IMAGE CLASSIFICATION
+# ----------------------------------
+
+st.markdown(
+    '<div class="section-title">Image Classification</div>',
+    unsafe_allow_html=True
 )
 
-st.divider()
+st.write(
+    "Upload a garbage image in JPG, JPEG, PNG, or WEBP format."
+)
 
-# Image Upload
 uploaded_file = st.file_uploader(
-    "Upload Garbage Image",
+    "Choose an image",
     type=["jpg", "jpeg", "png", "webp"]
 )
 
 if uploaded_file is not None:
 
-    image = Image.open(uploaded_file).convert("RGB")
+    try:
+        image = Image.open(uploaded_file).convert("RGB")
 
-    st.image(
-        image,
-        caption="Uploaded Image",
-        use_column_width=True
-    )
+        left, right = st.columns([1, 1], gap="large")
 
-    if st.button("Classify Image"):
+        with left:
+            st.subheader("Uploaded Image")
+            st.image(image, use_container_width=True)
 
-        with st.spinner("AI is analyzing your image..."):
+        with right:
+            st.subheader("AI Prediction")
 
-            # Image Preprocessing
-            img = image.resize((224, 224))
-            img_array = np.array(img, dtype=np.float32)
+            if st.button("Classify Image"):
 
-            # Same preprocessing used during training
-            img_array = tf.keras.applications.mobilenet_v2.preprocess_input(
-                img_array
+                with st.spinner("AI is analyzing your image..."):
+
+                    resized_image = image.resize((224, 224))
+
+                    img_array = np.array(
+                        resized_image,
+                        dtype=np.float32
+                    )
+
+                    img_array = (
+                        tf.keras.applications.mobilenet_v2
+                        .preprocess_input(img_array)
+                    )
+
+                    img_array = np.expand_dims(
+                        img_array,
+                        axis=0
+                    )
+
+                    predictions = model.predict(
+                        img_array,
+                        verbose=0
+                    )[0]
+
+                    predicted_index = int(np.argmax(predictions))
+                    predicted_class = CLASS_NAMES[predicted_index]
+                    confidence = float(predictions[predicted_index]) * 100
+
+                st.success("Classification Completed!")
+
+                st.markdown(
+                    f"### {predicted_class.replace('-', ' ').title()}"
+                )
+
+                st.metric(
+                    "Prediction Confidence",
+                    f"{confidence:.2f}%"
+                )
+
+                st.progress(
+                    min(max(confidence / 100, 0.0), 1.0)
+                )
+
+                st.markdown("**Top 3 Predictions**")
+
+                top_indices = np.argsort(predictions)[-3:][::-1]
+
+                for index in top_indices:
+
+                    category = CLASS_NAMES[index].replace(
+                        "-", " "
+                    ).title()
+
+                    score = float(predictions[index]) * 100
+
+                    st.write(
+                        f"**{category} — {score:.2f}%**"
+                    )
+
+                    st.progress(
+                        min(max(score / 100, 0.0), 1.0)
+                    )
+
+    except Exception as e:
+        st.error("Image process nahi ho saki.")
+        st.exception(e)
+
+# ----------------------------------
+# PROJECT RESOURCES
+# ----------------------------------
+
+st.markdown("---")
+
+st.markdown(
+    '<div class="section-title">Project Resources & Documentation</div>',
+    unsafe_allow_html=True
+)
+
+st.write(
+    "Explore the dataset, source code, documentation, "
+    "presentation, and project demonstration."
+)
+
+resource_cols = st.columns(2)
+
+resource_items = list(LINKS.items())
+
+for i, (title, url) in enumerate(resource_items):
+
+    with resource_cols[i % 2]:
+
+        st.markdown(
+            f'<div class="info-card"><b>{title}</b></div>',
+            unsafe_allow_html=True
+        )
+
+        if url.startswith("https://") or url.startswith("http://"):
+            st.link_button(
+                f"Open {title}",
+                url,
+                use_container_width=True
             )
+        else:
+            st.caption("Add your actual link in the LINKS section.")
 
-            img_array = np.expand_dims(img_array, axis=0)
+# ----------------------------------
+# FOOTER
+# ----------------------------------
 
-            # Prediction
-            predictions = model.predict(
-                img_array,
-                verbose=0
-            )[0]
+st.markdown("---")
 
-            predicted_index = np.argmax(predictions)
-            predicted_class = CLASS_NAMES[predicted_index]
-            confidence = predictions[predicted_index] * 100
-
-        # Display Result
-        st.success("Prediction Completed!")
-
-        st.subheader(
-            f"Predicted Category: {predicted_class.title()}"
-        )
-
-        st.metric(
-            "Confidence Score",
-            f"{confidence:.2f}%"
-        )
-
-        # Top 3 Predictions
-        st.subheader("Top 3 Predictions")
-
-        top_indices = np.argsort(predictions)[-3:][::-1]
-
-        for index in top_indices:
-            category = CLASS_NAMES[index].title()
-            score = predictions[index] * 100
-
-            st.write(f"**{category}: {score:.2f}%**")
-            st.progress(float(score / 100))
-
-st.divider()
-
-st.caption("AI-Based Smart Waste Classification | Powered by MobileNetV2")
+st.markdown(
+    """
+    <div style="text-align:center; padding:15px;">
+        <h4 style="color:#166534;">
+            ♻️ Garbage Classification AI
+        </h4>
+        <p style="color:#64748b;">
+            Powered by MobileNetV2 | TensorFlow | Streamlit
+        </p>
+        <p style="color:#64748b; font-size:13px;">
+            AI-Based Smart Waste Classification Project
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
