@@ -208,7 +208,7 @@ if uploaded_file is not None:
 
         with left:
             st.subheader("Uploaded Image")
-            st.image(image, use_container_width=True)
+            st.image(image, use_column_width=True)
 
         with st.spinner("AI is analyzing your image..."):
 
