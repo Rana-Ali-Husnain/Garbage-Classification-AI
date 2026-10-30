@@ -164,7 +164,7 @@ advice.
 - **Project Report:** [View Project Report](YOUR_REPORT_LINK)
 - **YouTube Demonstration:** [Watch Demo](YOUR_YOUTUBE_LINK)
 - **LinkedIn:** [Connect on LinkedIn](YOUR_LINKEDIN_LINK)
-- **Project Presentation:** [View PPT](YOUR_PPT_LINK)
+- **Project Presentation:** https://docs.google.com/presentation/d/15MoOpWuTn7OAOtL1_ZCpnxcSe1bXovRK/edit?usp=sharing&ouid=109821129166928634241&rtpof=true&sd=true
 - **GitHub Repository:** [View Source Code](https://github.com/Rana-Ali-Husnain/Garbage-Classification-AI)
 - **Dataset:** [View Kaggle Dataset](https://www.kaggle.com/datasets/mostafaabla/garbage-classification)
 ## Author
