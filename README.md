@@ -1,8 +1,14 @@
 # Garbage Classification AI
 
-An AI-powered image classification application that identifies waste
-categories from an uploaded image. The project uses MobileNetV2 transfer
-learning and a Streamlit interface.
+An AI-powered image classification application that identifies waste categories from an uploaded image. The project uses MobileNetV2 transfer learning and a Streamlit interface.
+
+## 📊 Dataset
+
+**Dataset Source:** Kaggle
+
+🔗 **[Click Here to View and Access the Garbage Classification Dataset](https://www.kaggle.com/datasets/mostafaabla/garbage-classification)**
+
+The dataset contains **15,515 images across 12 garbage categories** and is used for training and evaluating the model.
 
 ## Project Overview
 
@@ -152,6 +158,15 @@ This is an educational AI prototype. Predictions are model estimates and
 should not be treated as definitive waste-management or recycling
 advice.
 
+## Project Resources
+
+- **Live Application:** [View Live App](YOUR_LIVE_APP_LINK)
+- **Project Report:** [View Project Report](YOUR_REPORT_LINK)
+- **YouTube Demonstration:** [Watch Demo](YOUR_YOUTUBE_LINK)
+- **LinkedIn:** [Connect on LinkedIn](YOUR_LINKEDIN_LINK)
+- **Project Presentation:** [View PPT](YOUR_PPT_LINK)
+- **GitHub Repository:** [View Source Code](https://github.com/Rana-Ali-Husnain/Garbage-Classification-AI)
+- **Dataset:** [View Kaggle Dataset](https://www.kaggle.com/datasets/mostafaabla/garbage-classification)
 ## Author
 
 **Rana Ali Husnain**
