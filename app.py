@@ -21,13 +21,13 @@ st.set_page_config(
 # ----------------------------------
 
 LINKS = {
-    "Dataset & Code Details": "YOUR_KAGGLE_NOTEBOOK_LINK",
-    "Project Report": "YOUR_PROJECT_REPORT_LINK",
-    "PPT / Presentation": "YOUR_PPT_LINK",
-    "YouTube Video": "YOUR_YOUTUBE_VIDEO_LINK",
-    "GitHub Repository": "YOUR_GITHUB_REPOSITORY_LINK",
-    "LinkedIn": "YOUR_LINKEDIN_PROFILE_LINK",
-    "Kaggle": "YOUR_KAGGLE_PROFILE_OR_NOTEBOOK_LINK"
+    "Dataset & Code Details": "https://www.kaggle.com/datasets/mostafaabla/garbage-classification",
+    "Project Report": "https://docs.google.com/document/d/1PheF0D7cxeZ0KxZZm-b8pK71QTxn9fHi/edit?usp=sharing&ouid=109821129166928634241&rtpof=true&sd=true",
+    "PPT / Presentation": "https://docs.google.com/presentation/d/1jm5u5VZ9Gvq4cOG1XAmgrdu9sxLMfrXC/edit?usp=sharing&ouid=109821129166928634241&rtpof=true&sd=true",
+    "YouTube Video": "https://www.youtube.com/@RanaAliHusnain-co9qt",
+    "GitHub Repository": "https://github.com/Rana-Ali-Husnain/Garbage-Classification-AI",
+    "LinkedIn": "https://www.linkedin.com/in/rana-ali-husnain/",
+    "Kaggle": "https://www.kaggle.com/code/ranaalihusnain/garbage-classification/notebook"
 }
 
 # ----------------------------------
