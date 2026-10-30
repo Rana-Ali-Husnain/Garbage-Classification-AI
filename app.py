@@ -185,22 +185,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ----------------------------------
-# PROJECT OVERVIEW
-# ----------------------------------
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric("Waste Categories", "12")
-
-with col2:
-    st.metric("Test Accuracy", "94%")
-
-with col3:
-    st.metric("Deep Learning Model", "MobileNetV2")
-
-st.markdown("---")
 
 # ----------------------------------
 # IMAGE CLASSIFICATION
@@ -212,11 +196,12 @@ st.markdown(
 )
 
 st.write(
-    "Upload a garbage image in JPG, JPEG, PNG, or WEBP format."
+    "Upload a garbage image and our AI model will automatically "
+    "identify its category."
 )
 
 uploaded_file = st.file_uploader(
-    "Choose an image",
+    "Upload Garbage Image",
     type=["jpg", "jpeg", "png", "webp"]
 )
 
@@ -225,121 +210,76 @@ if uploaded_file is not None:
     try:
         image = Image.open(uploaded_file).convert("RGB")
 
-        left, right = st.columns([1, 1], gap="large")
+        left, right = st.columns(2, gap="large")
 
         with left:
             st.subheader("Uploaded Image")
             st.image(image, use_container_width=True)
 
+        with st.spinner("AI is analyzing your image..."):
+
+            resized_image = image.resize((224, 224))
+
+            img_array = np.array(
+                resized_image,
+                dtype=np.float32
+            )
+
+            img_array = (
+                tf.keras.applications.mobilenet_v2
+                .preprocess_input(img_array)
+            )
+
+            img_array = np.expand_dims(img_array, axis=0)
+
+            predictions = model.predict(
+                img_array,
+                verbose=0
+            )[0]
+
+            predicted_index = int(np.argmax(predictions))
+            predicted_class = CLASS_NAMES[predicted_index]
+            confidence = float(predictions[predicted_index]) * 100
+
         with right:
-            st.subheader("AI Prediction")
+            st.subheader("AI Classification Result")
 
-            if st.button("Classify Image"):
+            st.success("Classification Completed!")
 
-                with st.spinner("AI is analyzing your image..."):
+            st.markdown(
+                f"### {predicted_class.replace('-', ' ').title()}"
+            )
 
-                    resized_image = image.resize((224, 224))
+            st.metric(
+                "Confidence Score",
+                f"{confidence:.2f}%"
+            )
 
-                    img_array = np.array(
-                        resized_image,
-                        dtype=np.float32
-                    )
+            st.progress(
+                min(max(confidence / 100, 0.0), 1.0)
+            )
 
-                    img_array = (
-                        tf.keras.applications.mobilenet_v2
-                        .preprocess_input(img_array)
-                    )
+            st.markdown("**Top 3 Predictions**")
 
-                    img_array = np.expand_dims(
-                        img_array,
-                        axis=0
-                    )
+            top_indices = np.argsort(predictions)[-3:][::-1]
 
-                    predictions = model.predict(
-                        img_array,
-                        verbose=0
-                    )[0]
+            for index in top_indices:
 
-                    predicted_index = int(np.argmax(predictions))
-                    predicted_class = CLASS_NAMES[predicted_index]
-                    confidence = float(predictions[predicted_index]) * 100
+                category = CLASS_NAMES[index].replace(
+                    "-", " "
+                ).title()
 
-                st.success("Classification Completed!")
+                score = float(predictions[index]) * 100
 
-                st.markdown(
-                    f"### {predicted_class.replace('-', ' ').title()}"
-                )
-
-                st.metric(
-                    "Prediction Confidence",
-                    f"{confidence:.2f}%"
-                )
+                st.write(f"**{category}: {score:.2f}%**")
 
                 st.progress(
-                    min(max(confidence / 100, 0.0), 1.0)
+                    min(max(score / 100, 0.0), 1.0)
                 )
 
-                st.markdown("**Top 3 Predictions**")
-
-                top_indices = np.argsort(predictions)[-3:][::-1]
-
-                for index in top_indices:
-
-                    category = CLASS_NAMES[index].replace(
-                        "-", " "
-                    ).title()
-
-                    score = float(predictions[index]) * 100
-
-                    st.write(
-                        f"**{category} — {score:.2f}%**"
-                    )
-
-                    st.progress(
-                        min(max(score / 100, 0.0), 1.0)
-                    )
-
     except Exception as e:
-        st.error("Image process nahi ho saki.")
+        st.error("Image classification failed.")
         st.exception(e)
-
-# ----------------------------------
-# PROJECT RESOURCES
-# ----------------------------------
-
-st.markdown("---")
-
-st.markdown(
-    '<div class="section-title">Project Resources & Documentation</div>',
-    unsafe_allow_html=True
-)
-
-st.write(
-    "Explore the dataset, source code, documentation, "
-    "presentation, and project demonstration."
-)
-
-resource_cols = st.columns(2)
-
-resource_items = list(LINKS.items())
-
-for i, (title, url) in enumerate(resource_items):
-
-    with resource_cols[i % 2]:
-
-        st.markdown(
-            f'<div class="info-card"><b>{title}</b></div>',
-            unsafe_allow_html=True
-        )
-
-        if url.startswith("https://") or url.startswith("http://"):
-            st.link_button(
-                f"Open {title}",
-                url,
-                use_container_width=True
-            )
-        else:
-            st.caption("Add your actual link in the LINKS section.")
 
 # ----------------------------------
 # FOOTER
