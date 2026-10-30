@@ -231,6 +231,12 @@ if uploaded_file is not None:
                 verbose=0
             )[0]
 
+            st.write("DEBUG: Model prediction completed")
+            st.write("Prediction shape:", predictions.shape)
+            st.write("Prediction values:", predictions)
+
+            st.write("DEBUG: Predicted index:", int(np.argmax(predictions)))
+
             predicted_index = int(np.argmax(predictions))
             predicted_class = CLASS_NAMES[predicted_index]
             confidence = float(predictions[predicted_index]) * 100
