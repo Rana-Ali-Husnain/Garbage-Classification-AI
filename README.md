@@ -160,11 +160,11 @@ advice.
 
 ## Project Resources
 
-- **Live Application:** [View Live App](YOUR_LIVE_APP_LINK)
-- **Project Report:** [View Project Report](YOUR_REPORT_LINK)
-- **YouTube Demonstration:** [Watch Demo](YOUR_YOUTUBE_LINK)
-- **LinkedIn:** [Connect on LinkedIn](YOUR_LINKEDIN_LINK)
-- **Project Presentation:** https://docs.google.com/presentation/d/15MoOpWuTn7OAOtL1_ZCpnxcSe1bXovRK/edit?usp=sharing&ouid=109821129166928634241&rtpof=true&sd=true
+- **Live Application:** [View Live App](https://garbage-classification-ai-by-ali.streamlit.app/#ed636f01)
+- **Project Report:** [View Project Report](https://docs.google.com/document/d/1PheF0D7cxeZ0KxZZm-b8pK71QTxn9fHi/edit?usp=sharing&ouid=109821129166928634241&rtpof=true&sd=true)
+- **YouTube Demonstration:** [[Watch Demo](https://youtu.be/cmGJfcBQ1Bo)
+- **LinkedIn:** [Connect on LinkedIn](https://lnkd.in/p/dGKv6neB)
+- **Project Presentation:** [View PPT](https://docs.google.com/presentation/d/1XeztzZH0t3pdkHCZyPKWFTUu8EkztkpO/edit?usp=sharing&ouid=109821129166928634241&rtpof=true&sd=true)
 - **GitHub Repository:** [View Source Code](https://github.com/Rana-Ali-Husnain/Garbage-Classification-AI)
 - **Dataset:** [View Kaggle Dataset](https://www.kaggle.com/datasets/mostafaabla/garbage-classification)
 ## Author
